@@ -1,6 +1,7 @@
 package com.aevumdev.resale
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +16,6 @@ import com.aevumdev.resale.models.Item
 import com.aevumdev.resale.models.ItemViewModel
 import com.google.android.material.snackbar.Snackbar
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class ItemListFragment : Fragment() {
 
     private var _binding: FragmentItemListBinding? = null
@@ -38,9 +36,10 @@ class ItemListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         itemViewModel.itemsLiveData.observe(viewLifecycleOwner){items ->
             val gAdapter = GenericAdapter(items){ position ->
-                val snackText = items[position].toString()
-                val snack = Snackbar.make(view,snackText, Snackbar.LENGTH_LONG)
-                snack.show()
+                val item :Item = items[position]
+                Log.d("REX", item.title)
+                /*val action = ItemListFragmentDirections.actionItemListFragmentToItemInfoFragment(item)
+                findNavController().navigate(action)*/
             }
             binding.itemListRv.layoutManager = LinearLayoutManager(activity)
             binding.itemListRv.adapter = gAdapter

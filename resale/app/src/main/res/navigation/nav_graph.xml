@@ -3,26 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
-
+    app:startDestination="@id/itemListFragment">
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/itemListFragment"
         android:name="com.aevumdev.resale.ItemListFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_item_list">
-
+        android:label="fragment_item_list"
+        tools:layout="@layout/fragment_item_list" >
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_itemListFragment_to_itemInfoFragment"
+            app:destination="@id/itemInfoFragment" />
+        <action
+            android:id="@+id/action_itemListFragment_to_addItemFragment2"
+            app:destination="@id/addItemFragment2" />
+        <action
+            android:id="@+id/action_itemListFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/itemInfoFragment"
         android:name="com.aevumdev.resale.ItemInfoFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_item_info">
-
+        android:label="fragment_item_info"
+        tools:layout="@layout/fragment_item_info" >
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_itemInfoFragment_to_itemListFragment"
+            app:destination="@id/itemListFragment" />
+        <argument
+            android:name="item_info"
+            app:argType="com.aevumdev.resale.models.Item"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addItemFragment2"
+        android:name="com.aevumdev.resale.AddItemFragment"
+        android:label="fragment_add_item"
+        tools:layout="@layout/fragment_add_item" >
+        <action
+            android:id="@+id/action_addItemFragment2_to_itemListFragment"
+            app:destination="@id/itemListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.aevumdev.resale.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_itemListFragment"
+            app:destination="@id/itemListFragment" />
     </fragment>
 </navigation>
