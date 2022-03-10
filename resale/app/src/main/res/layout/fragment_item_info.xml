@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/img_info"
         android:layout_width="match_parent"
-        android:layout_height="412dp"
+        android:layout_height="353dp"
         app:srcCompat="@android:drawable/ic_menu_gallery"
         tools:src="@tools:sample/avatars" />
 

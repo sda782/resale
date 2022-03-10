@@ -13,8 +13,8 @@
             android:id="@+id/action_itemListFragment_to_itemInfoFragment"
             app:destination="@id/itemInfoFragment" />
         <action
-            android:id="@+id/action_itemListFragment_to_addItemFragment2"
-            app:destination="@id/addItemFragment2" />
+            android:id="@+id/action_itemListFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
         <action
             android:id="@+id/action_itemListFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
@@ -32,12 +32,12 @@
             app:argType="integer"/>
     </fragment>
     <fragment
-        android:id="@+id/addItemFragment2"
+        android:id="@+id/addItemFragment"
         android:name="com.aevumdev.resale.AddItemFragment"
         android:label="fragment_add_item"
         tools:layout="@layout/fragment_add_item" >
         <action
-            android:id="@+id/action_addItemFragment2_to_itemListFragment"
+            android:id="@+id/action_addItemFragment_to_itemListFragment"
             app:destination="@id/itemListFragment" />
     </fragment>
     <fragment
