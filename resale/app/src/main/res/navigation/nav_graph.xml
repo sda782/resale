@@ -29,7 +29,7 @@
             app:destination="@id/itemListFragment" />
         <argument
             android:name="item_info"
-            app:argType="com.aevumdev.resale.models.Item"/>
+            app:argType="integer"/>
     </fragment>
     <fragment
         android:id="@+id/addItemFragment2"

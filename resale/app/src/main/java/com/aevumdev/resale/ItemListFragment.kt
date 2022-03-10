@@ -38,8 +38,8 @@ class ItemListFragment : Fragment() {
             val gAdapter = GenericAdapter(items){ position ->
                 val item :Item = items[position]
                 Log.d("REX", item.title)
-                /*val action = ItemListFragmentDirections.actionItemListFragmentToItemInfoFragment(item)
-                findNavController().navigate(action)*/
+                val action = ItemListFragmentDirections.actionItemListFragmentToItemInfoFragment(position)
+                findNavController().navigate(action)
             }
             binding.itemListRv.layoutManager = LinearLayoutManager(activity)
             binding.itemListRv.adapter = gAdapter
