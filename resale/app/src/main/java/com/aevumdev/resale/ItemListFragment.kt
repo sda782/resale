@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +44,9 @@ class ItemListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (auth.currentUser == null){
+            loginDialog()
+        }
         itemViewModel.itemsLiveData.observe(viewLifecycleOwner){items ->
             val gAdapter = GenericAdapter(items){ position ->
                 val action = ItemListFragmentDirections.actionItemListFragmentToItemInfoFragment(position)
@@ -52,8 +56,9 @@ class ItemListFragment : Fragment() {
             binding.itemListRv.adapter = gAdapter
         }
         itemViewModel.reload()
-        if (auth.currentUser == null){
-            loginDialog()
+        binding.logOutBtn.setOnClickListener {
+            Firebase.auth.signOut()
+            findNavController().navigate(R.id.action_itemListFragment_to_itemListFragment)
         }
     }
 
@@ -67,9 +72,12 @@ class ItemListFragment : Fragment() {
         loginDialogBuilder.setTitle("Login with Email")
         loginDialogBuilder.setCancelable(false)
 
+        val errText = TextView(context)
+        errText.text = ""
+
         val inputEmail = EditText(context)
         inputEmail.hint = "email"
-        inputEmail.inputType = InputType.TYPE_CLASS_TEXT
+        inputEmail.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
 
         val inputPassword = EditText(context)
         inputPassword.hint = "password"
@@ -77,6 +85,7 @@ class ItemListFragment : Fragment() {
 
         val dialogView = LinearLayout(context, )
         dialogView.orientation = LinearLayout.VERTICAL
+        dialogView.addView(errText)
         dialogView.addView(inputEmail)
         dialogView.addView(inputPassword)
 
@@ -99,6 +108,9 @@ class ItemListFragment : Fragment() {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful){
                     loginDialog.dismiss()
+                }
+                if (!task.isSuccessful){
+                    errText.text = "Login failed"
                 }
             }
         }
