@@ -20,6 +20,7 @@ class GenericAdapter(
         with(holder) {
             with(list[position]) {
                 binding.itemNameTxt.text = this.title
+                binding.itemPriceTxt.text = this.price.toString()
             }
         }
     }

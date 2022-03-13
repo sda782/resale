@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aevumdev.resale.databinding.FragmentItemInfoBinding
 import com.aevumdev.resale.models.ItemViewModel
+import java.text.SimpleDateFormat
 
 class ItemInfoFragment : Fragment() {
 
@@ -36,6 +37,9 @@ class ItemInfoFragment : Fragment() {
         val item = itemViewModel.itemsLiveData.value?.get(args.itemInfo)!!
         binding.nameInfoText.text = item.title
         binding.descriptionInfoText.text = item.description
+        binding.priceInfoText.text = item.price.toString()
+        binding.sellerInfoText.text = item.seller;
+        binding.dateInfoText.text = item.date.toString()
     }
 
     override fun onDestroyView() {
