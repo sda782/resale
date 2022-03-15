@@ -11,11 +11,13 @@ import androidx.navigation.fragment.findNavController
 import com.aevumdev.resale.databinding.FragmentAddItemBinding
 import com.aevumdev.resale.models.Item
 import com.aevumdev.resale.models.ItemViewModel
+import com.aevumdev.resale.models.UserViewModel
 
 class AddItemFragment : Fragment() {
     private var _binding: FragmentAddItemBinding? = null
     private val binding get() = _binding!!
     private val itemViewModel : ItemViewModel by activityViewModels()
+    private val userViewModel : UserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +40,9 @@ class AddItemFragment : Fragment() {
             val priceText = binding.addItemPriceInput.text
             if (priceText.isEmpty()) {binding.addItemPriceInput.error = "Enter Price"; return@setOnClickListener}
             val priceDouble = priceText.toString().toDouble()
-            Log.d("REX", "$titleText $descriptionText $priceDouble")
-            val addItem: Item = Item(titleText.trim().toString(),descriptionText.trim().toString(),priceDouble,"aaa", "")
+            val addItem: Item = Item(titleText.trim().toString(),descriptionText.trim().toString(),priceDouble,userViewModel.currentUser.value?.displayName.toString(), "")
+            itemViewModel.addItem(addItem)
+            Log.d("REX", addItem.toString())
         }
     }
 
