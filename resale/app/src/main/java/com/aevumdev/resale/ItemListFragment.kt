@@ -1,22 +1,24 @@
 package com.aevumdev.resale
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aevumdev.resale.databinding.FragmentItemListBinding
 import com.aevumdev.resale.models.GenericAdapter
 import com.aevumdev.resale.models.ItemViewModel
+import com.aevumdev.resale.models.UserViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -26,8 +28,8 @@ class ItemListFragment : Fragment() {
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
     private val itemViewModel : ItemViewModel by activityViewModels()
-    private lateinit var auth: FirebaseAuth
-
+    private val userViewModel : UserViewModel by activityViewModels()
+    lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
@@ -44,9 +46,7 @@ class ItemListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (auth.currentUser == null){
-            loginDialog()
-        }
+
         itemViewModel.itemsLiveData.observe(viewLifecycleOwner){items ->
             val gAdapter = GenericAdapter(items){ position ->
                 val action = ItemListFragmentDirections.actionItemListFragmentToItemInfoFragment(position)
@@ -56,9 +56,17 @@ class ItemListFragment : Fragment() {
             binding.itemListRv.adapter = gAdapter
         }
         itemViewModel.reload()
-        binding.logOutBtn.setOnClickListener {
-            Firebase.auth.signOut()
-            findNavController().navigate(R.id.action_itemListFragment_to_itemListFragment)
+
+        userViewModel.currentUser.observe(viewLifecycleOwner) { user ->
+            Log.d("REX", "update")
+
+            binding.fab.setOnClickListener {
+                if (auth.currentUser != null) {
+                    findNavController().navigate(R.id.action_itemListFragment_to_addItemFragment)
+                }else{
+                    loginDialog()
+                }
+            }
         }
     }
 
@@ -83,7 +91,7 @@ class ItemListFragment : Fragment() {
         inputPassword.hint = "password"
         inputPassword.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
 
-        val dialogView = LinearLayout(context, )
+        val dialogView = LinearLayout(context )
         dialogView.orientation = LinearLayout.VERTICAL
         dialogView.addView(errText)
         dialogView.addView(inputEmail)
@@ -91,6 +99,7 @@ class ItemListFragment : Fragment() {
 
         loginDialogBuilder.setView(dialogView)
         loginDialogBuilder.setPositiveButton("Login", null)
+        loginDialogBuilder.setNegativeButton("Back",null)
         val loginDialog : AlertDialog = loginDialogBuilder.create()
         loginDialog.show()
         val positiveButton : Button = loginDialog.getButton(AlertDialog.BUTTON_POSITIVE)
@@ -105,14 +114,12 @@ class ItemListFragment : Fragment() {
                 inputPassword.error = "Enter a password"
                 return@setOnClickListener
             }
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                if (task.isSuccessful){
-                    loginDialog.dismiss()
-                }
-                if (!task.isSuccessful){
-                    errText.text = "Login failed"
-                }
-            }
+            userViewModel.signIn(view?.context!!,email, password)
+            loginDialog.dismiss()
+        }
+        val negativeButton : Button = loginDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+        negativeButton.setOnClickListener {
+            loginDialog.dismiss()
         }
     }
 }

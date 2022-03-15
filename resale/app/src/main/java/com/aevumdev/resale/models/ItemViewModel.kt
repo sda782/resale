@@ -14,4 +14,7 @@ class ItemViewModel : ViewModel() {
     fun reload(){
         repository.getItems()
     }
+    fun addItem(item:Item){
+        repository.addItem(item)
+    }
 }

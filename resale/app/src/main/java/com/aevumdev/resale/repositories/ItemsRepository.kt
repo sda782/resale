@@ -39,4 +39,8 @@ class ItemsRepository {
 
         })
     }
+
+    fun addItem(item: Item) {
+    itemStoreService.addItem(item)
+    }
 }
