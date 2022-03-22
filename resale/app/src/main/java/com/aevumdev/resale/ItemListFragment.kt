@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
@@ -46,7 +47,6 @@ class ItemListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         itemViewModel.itemsLiveData.observe(viewLifecycleOwner){items ->
             val gAdapter = GenericAdapter(items){ position ->
                 val action = ItemListFragmentDirections.actionItemListFragmentToItemInfoFragment(position)

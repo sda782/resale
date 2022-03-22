@@ -15,10 +15,6 @@ class UserViewModel : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val currentUser: LiveData<FirebaseUser> = MutableLiveData(auth.currentUser)
 
-    fun logOut() {
-        auth.signOut()
-    }
-
     fun signIn(context: Context, email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {

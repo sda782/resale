@@ -1,14 +1,12 @@
 <resources>
     <string name="app_name">resale</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_item">Add item</string>
+    <string name="add_item_input_title_text">Title</string>
+    <string name="add_item_description_text">Description</string>
+    <string name="add_item_input_price_text">Price</string>
+    <string name="button_back_text">Back</string>
+    <string name="item_image_description">Item Image</string>
+    <string name="delete_button_text">Delete</string>
+    <string name="spinner_description_text">sortby</string>
 </resources>

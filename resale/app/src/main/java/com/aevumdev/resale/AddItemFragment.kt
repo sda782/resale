@@ -12,6 +12,8 @@ import com.aevumdev.resale.databinding.FragmentAddItemBinding
 import com.aevumdev.resale.models.Item
 import com.aevumdev.resale.models.ItemViewModel
 import com.aevumdev.resale.models.UserViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 
 class AddItemFragment : Fragment() {
     private var _binding: FragmentAddItemBinding? = null
@@ -39,8 +41,8 @@ class AddItemFragment : Fragment() {
             if (descriptionText.isEmpty()) {binding.addItemDescriptionInput.error = "Enter description"; return@setOnClickListener}
             val priceText = binding.addItemPriceInput.text
             if (priceText.isEmpty()) {binding.addItemPriceInput.error = "Enter Price"; return@setOnClickListener}
-            val priceDouble = priceText.toString().toInt()
-            val addItem = Item(titleText.trim().toString(),descriptionText.trim().toString(),priceDouble)
+            val priceInt = priceText.toString().toInt()
+            val addItem = Item(titleText.trim().toString(),descriptionText.trim().toString(),priceInt, FirebaseAuth.getInstance().currentUser?.email.toString())
             itemViewModel.addItem(addItem)
             Log.d("REX", addItem.toString())
             findNavController().navigate(R.id.action_addItemFragment_to_itemListFragment)

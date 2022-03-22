@@ -16,7 +16,7 @@
         android:id="@+id/add_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add item"
+        android:text="@string/add_item"
         android:textColor="#000000"
         android:textSize="34sp" />
 
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Title"
+        android:hint="@string/add_item_input_title_text"
         android:inputType="textPersonName"
         android:minHeight="48dp" />
 
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Description"
+        android:hint="@string/add_item_description_text"
         android:inputType="textPersonName"
         android:minHeight="48dp" />
 
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Price"
+        android:hint="@string/add_item_input_price_text"
         android:inputType="number"
         android:minHeight="48dp" />
 
@@ -60,17 +60,19 @@
             android:id="@+id/add_item_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5sp"
+            android:layout_marginEnd="5sp"
             android:layout_weight="1"
-            android:text="Back" />
+            android:text="@string/button_back_text"
+            style="?android:attr/buttonBarButtonStyle" />
 
         <Button
             android:id="@+id/add_item_add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5sp"
+            android:layout_marginStart="5sp"
             android:layout_weight="1"
-            android:text="Add Item" />
+            android:text="@string/add_item"
+            style="?android:attr/buttonBarButtonStyle" />
     </LinearLayout>
 
 </LinearLayout>

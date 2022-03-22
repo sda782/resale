@@ -17,4 +17,8 @@ class ItemViewModel : ViewModel() {
     fun addItem(item:Item){
         repository.addItem(item)
     }
+
+    fun removeItem(id: Int) {
+        repository.removeItem(id)
+    }
 }

@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -57,7 +56,6 @@ class MainActivity : AppCompatActivity() {
                     val navController = findNavController(R.id.nav_host_fragment_content_main)
                     navController.popBackStack(R.id.itemListFragment, false)
                     navController.navigate(R.id.itemListFragment)
-                    // https://developer.android.com/codelabs/android-navigation#6
                 } else {
                     Snackbar.make(binding.root, "Cannot sign out", Snackbar.LENGTH_LONG).show()
                 }

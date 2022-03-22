@@ -6,20 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aevumdev.resale.databinding.FragmentItemInfoBinding
 import com.aevumdev.resale.models.ItemViewModel
+import com.aevumdev.resale.models.UserViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 
 class ItemInfoFragment : Fragment() {
 
     private var _binding: FragmentItemInfoBinding? = null
     private val args: ItemInfoFragmentArgs by navArgs()
-    private val itemViewModel : ItemViewModel by activityViewModels()
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private val itemViewModel: ItemViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -42,6 +45,15 @@ class ItemInfoFragment : Fragment() {
         val format = SimpleDateFormat.getDateTimeInstance()
         val timeStr = format.format(item.date * 1000)
         binding.dateInfoText.text = timeStr.toString()
+
+        if (FirebaseAuth.getInstance().currentUser?.email.toString() == item.seller) {
+            binding.itemInfoDeleteBtn.setOnClickListener {
+                itemViewModel.removeItem(item.id)
+                findNavController().navigate(R.id.action_itemInfoFragment_to_itemListFragment)
+            }
+        } else {
+            binding.itemInfoDeleteBtn.visibility = View.INVISIBLE
+        }
     }
 
     override fun onDestroyView() {

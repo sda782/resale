@@ -11,7 +11,7 @@
         android:id="@+id/img_info"
         android:layout_width="match_parent"
         android:layout_height="353dp"
-        android:contentDescription="Item Image"
+        android:contentDescription="@string/item_image_description"
         app:srcCompat="@android:drawable/ic_menu_gallery"
         tools:src="@tools:sample/avatars" />
 
@@ -37,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="10000"
+            android:text=""
             android:textAlignment="textStart"
             android:textSize="20sp" />
     </LinearLayout>
@@ -54,14 +54,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="aevum" />
+            android:text="" />
 
         <TextView
             android:id="@+id/date_info_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:text=""
             android:textAlignment="textEnd" />
     </LinearLayout>
 
@@ -73,6 +73,14 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="25dp"
-        android:text="TextView" />
+        android:text="" />
+
+    <Button
+        android:id="@+id/item_info_delete_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50sp"
+        android:layout_marginEnd="50sp"
+        android:text="@string/delete_button_text" />
 
 </LinearLayout>

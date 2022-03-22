@@ -51,13 +51,30 @@ class ItemsRepository {
                 }else{
                     val msg = response.code().toString() + " " + response.message()
                     errorMessageLiveData.postValue(msg)
-                    Log.d("REX", "IR "+response.toString())
                 }
             }
 
             override fun onFailure(call: Call<Item>, t: Throwable) {
                 errorMessageLiveData.postValue(t.message)
-                Log.d("REX", t.message.toString())
+            }
+
+        })
+    }
+
+    fun removeItem(id: Int) {
+        itemStoreService.deleteItem(id).enqueue(object : Callback<Item>{
+            override fun onResponse(call: Call<Item>, response: Response<Item>) {
+                if (response.isSuccessful){
+                    updateMessageLiveData.postValue("deleted " + response.body())
+                    errorMessageLiveData.postValue("")
+                }else{
+                    val msg = response.code().toString() + " " + response.message()
+                    errorMessageLiveData.postValue(msg)
+                }
+            }
+
+            override fun onFailure(call: Call<Item>, t: Throwable) {
+                errorMessageLiveData.postValue(t.message)
             }
 
         })
