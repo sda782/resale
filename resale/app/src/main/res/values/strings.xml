@@ -9,4 +9,13 @@
     <string name="item_image_description">Item Image</string>
     <string name="delete_button_text">Delete</string>
     <string name="spinner_description_text">sortby</string>
+    <string-array name="sortby_types">
+        <item>-- none --</item>
+        <item>id</item>
+        <item>title</item>
+        <item>description</item>
+        <item>price</item>
+        <item>date</item>
+        <item>picture</item>
+    </string-array>
 </resources>

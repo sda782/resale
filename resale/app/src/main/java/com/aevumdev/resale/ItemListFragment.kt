@@ -48,6 +48,7 @@ class ItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         itemViewModel.itemsLiveData.observe(viewLifecycleOwner){items ->
+            Log.d("REX", "update")
             val gAdapter = GenericAdapter(items){ position ->
                 val action = ItemListFragmentDirections.actionItemListFragmentToItemInfoFragment(position)
                 findNavController().navigate(action)
@@ -58,7 +59,6 @@ class ItemListFragment : Fragment() {
         itemViewModel.reload()
 
         userViewModel.currentUser.observe(viewLifecycleOwner) { user ->
-            Log.d("REX", "update")
 
             binding.fab.setOnClickListener {
                 if (auth.currentUser != null) {
@@ -68,6 +68,16 @@ class ItemListFragment : Fragment() {
                 }
             }
         }
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                itemViewModel.sort(binding.spinner.selectedItem.toString())
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+        }
+
         binding.swiperefresh.setOnRefreshListener {
             itemViewModel.reload()
             binding.swiperefresh.isRefreshing = false
