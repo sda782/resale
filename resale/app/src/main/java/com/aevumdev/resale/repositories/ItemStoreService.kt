@@ -10,4 +10,7 @@ interface ItemStoreService {
 
     @POST("resaleitems")
     fun addItem(@Body item:Item): Call<Item>
+
+    @DELETE("resaleitems/{id}")
+    fun deleteItem(@Path("id")id:Int):Call<Item>
 }

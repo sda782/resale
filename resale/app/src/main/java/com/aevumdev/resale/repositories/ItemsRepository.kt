@@ -1,5 +1,6 @@
 package com.aevumdev.resale.repositories
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.aevumdev.resale.models.Item
 import retrofit2.Call
@@ -13,6 +14,7 @@ class ItemsRepository {
     private val itemStoreService : ItemStoreService
     val itemsLiveData: MutableLiveData<List<Item>> = MutableLiveData<List<Item>>()
     val errorMessageLiveData: MutableLiveData<String> = MutableLiveData()
+    val updateMessageLiveData: MutableLiveData<String> = MutableLiveData()
     init {
         val build:Retrofit = Retrofit.Builder()
             .baseUrl(url)
@@ -41,6 +43,23 @@ class ItemsRepository {
     }
 
     fun addItem(item: Item) {
-        itemStoreService.addItem(item)
+        itemStoreService.addItem(item).enqueue(object : Callback<Item>{
+            override fun onResponse(call: Call<Item>, response: Response<Item>) {
+                if (response.isSuccessful){
+                    updateMessageLiveData.postValue("added " + response.body())
+                    errorMessageLiveData.postValue("")
+                }else{
+                    val msg = response.code().toString() + " " + response.message()
+                    errorMessageLiveData.postValue(msg)
+                    Log.d("REX", "IR "+response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<Item>, t: Throwable) {
+                errorMessageLiveData.postValue(t.message)
+                Log.d("REX", t.message.toString())
+            }
+
+        })
     }
 }

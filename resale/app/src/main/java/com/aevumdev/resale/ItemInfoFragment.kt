@@ -39,7 +39,9 @@ class ItemInfoFragment : Fragment() {
         binding.descriptionInfoText.text = item.description
         binding.priceInfoText.text = item.price.toString()
         binding.sellerInfoText.text = item.seller;
-        binding.dateInfoText.text = item.date.toString()
+        val format = SimpleDateFormat.getDateTimeInstance()
+        val timeStr = format.format(item.date * 1000)
+        binding.dateInfoText.text = timeStr.toString()
     }
 
     override fun onDestroyView() {

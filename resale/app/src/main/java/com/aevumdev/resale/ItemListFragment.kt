@@ -68,6 +68,10 @@ class ItemListFragment : Fragment() {
                 }
             }
         }
+        binding.swiperefresh.setOnRefreshListener {
+            itemViewModel.reload()
+            binding.swiperefresh.isRefreshing = false
+        }
     }
 
     override fun onDestroyView() {
@@ -99,6 +103,7 @@ class ItemListFragment : Fragment() {
 
         loginDialogBuilder.setView(dialogView)
         loginDialogBuilder.setPositiveButton("Login", null)
+        loginDialogBuilder.setNeutralButton("Sign up", null)
         loginDialogBuilder.setNegativeButton("Back",null)
         val loginDialog : AlertDialog = loginDialogBuilder.create()
         loginDialog.show()
@@ -115,6 +120,21 @@ class ItemListFragment : Fragment() {
                 return@setOnClickListener
             }
             userViewModel.signIn(view?.context!!,email, password)
+            loginDialog.dismiss()
+        }
+        val neutralButton : Button = loginDialog.getButton(AlertDialog.BUTTON_NEUTRAL)
+        neutralButton.setOnClickListener {
+            val email = inputEmail.editableText.toString()
+            val password = inputPassword.editableText.toString()
+            if (email.isEmpty()){
+                inputEmail.error = "Enter an email"
+                return@setOnClickListener
+            }
+            if (password.isEmpty()){
+                inputPassword.error = "Enter a password"
+                return@setOnClickListener
+            }
+            userViewModel.signUp(view?.context!!,email,password)
             loginDialog.dismiss()
         }
         val negativeButton : Button = loginDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
