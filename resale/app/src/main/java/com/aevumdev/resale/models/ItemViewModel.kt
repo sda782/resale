@@ -7,7 +7,7 @@ import com.aevumdev.resale.repositories.ItemsRepository
 
 class ItemViewModel : ViewModel() {
     private val repository = ItemsRepository()
-    private val pitemsLiveData: MutableLiveData<List<Item>> = repository.itemsLiveData
+    private var pitemsLiveData: MutableLiveData<List<Item>> = repository.itemsLiveData
     val itemsLiveData: LiveData<List<Item>> = pitemsLiveData
     val errorMessageLiveData: LiveData<String> = repository.errorMessageLiveData
 
@@ -44,9 +44,9 @@ class ItemViewModel : ViewModel() {
             "date" -> {
                 pitemsLiveData.value = pitemsLiveData.value?.sortedBy { it.date }
             }
-            /*"picture" -> {
-                pitemsLiveData.value = pitemsLiveData.value?.sortedBy { it.pictureUrl.lowercase() }
-            }*/
+            else -> {
+                pitemsLiveData = repository.itemsLiveData
+            }
         }
     }
 }
