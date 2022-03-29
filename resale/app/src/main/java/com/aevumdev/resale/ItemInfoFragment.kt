@@ -1,20 +1,17 @@
 package com.aevumdev.resale
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aevumdev.resale.databinding.FragmentItemInfoBinding
 import com.aevumdev.resale.models.ItemViewModel
 import com.aevumdev.resale.models.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 
 class ItemInfoFragment : Fragment() {
@@ -41,7 +38,7 @@ class ItemInfoFragment : Fragment() {
         binding.nameInfoText.text = item.title
         binding.descriptionInfoText.text = item.description
         binding.priceInfoText.text = item.price.toString()
-        binding.sellerInfoText.text = item.seller;
+        binding.sellerInfoText.text = item.seller
         val format = SimpleDateFormat.getDateTimeInstance()
         val timeStr = format.format(item.date * 1000)
         binding.dateInfoText.text = timeStr.toString()

@@ -9,6 +9,10 @@
     <string name="item_image_description">Item Image</string>
     <string name="delete_button_text">Delete</string>
     <string name="spinner_description_text">sortby</string>
+    <string name="logout">Log Out</string>
+    <string name="item_name">Item Name</string>
+    <string name="price">price</string>
+    <string name="image">Image</string>
     <string-array name="sortby_types">
         <item>-- none --</item>
         <item>id</item>

@@ -4,17 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10sp">
+    android:layout_margin="10sp"
+    android:background="@drawable/round_corner"
+    android:elevation="1sp"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/item_img"
-        android:layout_width="28dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         app:srcCompat="@android:drawable/ic_menu_camera"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:contentDescription="@string/image" />
 
     <TextView
         android:id="@+id/item_name_txt"
@@ -22,7 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
         android:layout_weight="20"
-        android:text="Item Name" />
+        android:text="@string/item_name"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
     <TextView
         android:id="@+id/item_price_txt"
@@ -30,6 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
         android:layout_weight="1"
-        android:text="1000" />
+        android:text="@string/price"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
 </LinearLayout>

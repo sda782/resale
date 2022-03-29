@@ -1,25 +1,20 @@
 package com.aevumdev.resale
 
-import android.content.DialogInterface
-import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.aevumdev.resale.databinding.FragmentItemListBinding
 import com.aevumdev.resale.models.GenericAdapter
 import com.aevumdev.resale.models.ItemViewModel
 import com.aevumdev.resale.models.UserViewModel
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -30,7 +25,7 @@ class ItemListFragment : Fragment() {
     private val binding get() = _binding!!
     private val itemViewModel : ItemViewModel by activityViewModels()
     private val userViewModel : UserViewModel by activityViewModels()
-    lateinit var auth: FirebaseAuth
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
@@ -51,7 +46,8 @@ class ItemListFragment : Fragment() {
                 val action = ItemListFragmentDirections.actionItemListFragmentToItemInfoFragment(position)
                 findNavController().navigate(action)
             }
-            binding.itemListRv.layoutManager = LinearLayoutManager(activity)
+            //binding.itemListRv.layoutManager = LinearLayoutManager(activity)
+            binding.itemListRv.layoutManager = GridLayoutManager(this.context, 2)
             binding.itemListRv.adapter = gAdapter
         }
         itemViewModel.reload()

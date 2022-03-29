@@ -2,10 +2,10 @@ package com.aevumdev.resale
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.aevumdev.resale.databinding.FragmentAddItemBinding
@@ -13,7 +13,6 @@ import com.aevumdev.resale.models.Item
 import com.aevumdev.resale.models.ItemViewModel
 import com.aevumdev.resale.models.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 
 class AddItemFragment : Fragment() {
     private var _binding: FragmentAddItemBinding? = null

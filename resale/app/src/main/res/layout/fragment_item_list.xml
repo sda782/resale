@@ -17,8 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/spinner_description_text"
+            android:elevation="1sp"
+            android:entries="@array/sortby_types"
             android:minHeight="32dp"
-            android:entries="@array/sortby_types"/>
+            android:outlineProvider="bounds" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"

@@ -1,6 +1,5 @@
 package com.aevumdev.resale.repositories
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.aevumdev.resale.models.Item
 import retrofit2.Call
