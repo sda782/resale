@@ -27,6 +27,18 @@ class ItemViewModel : ViewModel() {
         repository.removeItem(id)
     }
 
+    fun getMaxPrice():Int{
+        var maxPrice = 0
+        repository.itemsLiveData.value?.forEach {
+            if (it.price > maxPrice) maxPrice = it.price
+        }
+        return maxPrice
+    }
+
+    fun filterPrice(minVal:Int, maxVal:Int){
+        pitemsLiveData.value = pitemsLiveData.value?.filter { it.price in (minVal + 1) until maxVal }
+    }
+
     fun sort(sortType: String) {
         when (sortType) {
             "id" -> {

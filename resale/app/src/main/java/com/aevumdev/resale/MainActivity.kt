@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                     navController.popBackStack(R.id.itemListFragment, false)
                     navController.navigate(R.id.itemListFragment)
                 } else {
-                    Snackbar.make(binding.root, "Cannot sign out", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, "Not signed in", Snackbar.LENGTH_LONG).show()
                 }
                 true
             }

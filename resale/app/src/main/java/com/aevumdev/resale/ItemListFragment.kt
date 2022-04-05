@@ -1,5 +1,6 @@
 package com.aevumdev.resale
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -19,12 +20,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+
 class ItemListFragment : Fragment() {
 
     private var _binding: FragmentItemListBinding? = null
     private val binding get() = _binding!!
-    private val itemViewModel : ItemViewModel by activityViewModels()
-    private val userViewModel : UserViewModel by activityViewModels()
+    private var gridlayoutManager: GridLayoutManager? = null
+    private val itemViewModel: ItemViewModel by activityViewModels()
+    private val userViewModel: UserViewModel by activityViewModels()
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,14 +44,30 @@ class ItemListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemViewModel.itemsLiveData.observe(viewLifecycleOwner){items ->
-            val gAdapter = GenericAdapter(items){ position ->
-                val action = ItemListFragmentDirections.actionItemListFragmentToItemInfoFragment(position)
-                findNavController().navigate(action)
+        itemViewModel.itemsLiveData.observe(viewLifecycleOwner) { items ->
+            if (items.count()>0) {
+                binding.itemListRv.visibility = View.VISIBLE
+                binding.itemListErrText.visibility = View.GONE
+                val gAdapter = GenericAdapter(items) { position ->
+                    val action =
+                        ItemListFragmentDirections.actionItemListFragmentToItemInfoFragment(position)
+                    findNavController().navigate(action)
+                }
+
+                gridlayoutManager = GridLayoutManager(this.context, 2)
+                val currentOrientation = this.resources.configuration.orientation
+                if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    gridlayoutManager?.spanCount = 4
+                } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+                    gridlayoutManager?.spanCount = 2
+                }
+
+                binding.itemListRv.layoutManager = gridlayoutManager
+                binding.itemListRv.adapter = gAdapter
+            }else {
+                binding.itemListRv.visibility = View.GONE
+                binding.itemListErrText.visibility = View.VISIBLE
             }
-            //binding.itemListRv.layoutManager = LinearLayoutManager(activity)
-            binding.itemListRv.layoutManager = GridLayoutManager(this.context, 2)
-            binding.itemListRv.adapter = gAdapter
         }
         itemViewModel.reload()
 
@@ -57,12 +76,12 @@ class ItemListFragment : Fragment() {
             binding.fab.setOnClickListener {
                 if (auth.currentUser != null) {
                     findNavController().navigate(R.id.action_itemListFragment_to_addItemFragment)
-                }else{
+                } else {
                     loginDialog()
                 }
             }
         }
-        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 itemViewModel.sort(binding.spinner.selectedItem.toString())
             }
@@ -72,6 +91,9 @@ class ItemListFragment : Fragment() {
 
         }
 
+        binding.filterBtn.setOnClickListener {
+            filterDialog()
+        }
         binding.swiperefresh.setOnRefreshListener {
             itemViewModel.reload()
             binding.swiperefresh.isRefreshing = false
@@ -83,7 +105,7 @@ class ItemListFragment : Fragment() {
         _binding = null
     }
 
-    private fun loginDialog(){
+    private fun loginDialog() {
         val loginDialogBuilder = AlertDialog.Builder(view?.context!!)
         loginDialogBuilder.setTitle("Login with Email")
         loginDialogBuilder.setCancelable(false)
@@ -99,7 +121,7 @@ class ItemListFragment : Fragment() {
         inputPassword.hint = "password"
         inputPassword.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
 
-        val dialogView = LinearLayout(context )
+        val dialogView = LinearLayout(context)
         dialogView.orientation = LinearLayout.VERTICAL
         dialogView.addView(errText)
         dialogView.addView(inputEmail)
@@ -108,42 +130,125 @@ class ItemListFragment : Fragment() {
         loginDialogBuilder.setView(dialogView)
         loginDialogBuilder.setPositiveButton("Login", null)
         loginDialogBuilder.setNeutralButton("Sign up", null)
-        loginDialogBuilder.setNegativeButton("Back",null)
-        val loginDialog : AlertDialog = loginDialogBuilder.create()
+        loginDialogBuilder.setNegativeButton("Back", null)
+        val loginDialog: AlertDialog = loginDialogBuilder.create()
         loginDialog.show()
-        val positiveButton : Button = loginDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+
+        val positiveButton: Button = loginDialog.getButton(AlertDialog.BUTTON_POSITIVE)
         positiveButton.setOnClickListener {
             val email = inputEmail.editableText.toString()
             val password = inputPassword.editableText.toString()
-            if (email.isEmpty()){
+            if (email.isEmpty()) {
                 inputEmail.error = "Enter an email"
                 return@setOnClickListener
             }
-            if (password.isEmpty()){
+            if (password.isEmpty()) {
                 inputPassword.error = "Enter a password"
                 return@setOnClickListener
             }
-            userViewModel.signIn(view?.context!!,email, password)
+            userViewModel.signIn(view?.context!!, email, password)
             loginDialog.dismiss()
         }
-        val neutralButton : Button = loginDialog.getButton(AlertDialog.BUTTON_NEUTRAL)
+        val neutralButton: Button = loginDialog.getButton(AlertDialog.BUTTON_NEUTRAL)
         neutralButton.setOnClickListener {
             val email = inputEmail.editableText.toString()
             val password = inputPassword.editableText.toString()
-            if (email.isEmpty()){
+            if (email.isEmpty()) {
                 inputEmail.error = "Enter an email"
                 return@setOnClickListener
             }
-            if (password.isEmpty()){
+            if (password.isEmpty()) {
                 inputPassword.error = "Enter a password"
                 return@setOnClickListener
             }
-            userViewModel.signUp(view?.context!!,email,password)
+            userViewModel.signUp(view?.context!!, email, password)
             loginDialog.dismiss()
         }
-        val negativeButton : Button = loginDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+        val negativeButton: Button = loginDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
         negativeButton.setOnClickListener {
             loginDialog.dismiss()
         }
     }
+
+    private fun filterDialog() {
+        val filterDialogBuilder = AlertDialog.Builder(view?.context!!)
+        filterDialogBuilder.setTitle("Filter Price")
+        val maxVal = itemViewModel.getMaxPrice()
+        val minValText = TextView(context)
+        minValText.text = "Min"
+        val minValSeekbar = SeekBar(context)
+        minValSeekbar.max = maxVal
+        minValSeekbar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                minValText.text = "Min " + minValSeekbar.progress.toString()
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+            }
+        })
+
+        val maxValText = TextView(context)
+        maxValText.text = "Max"
+        val maxValSeekbar = SeekBar(context)
+        maxValSeekbar.max = maxVal
+        maxValSeekbar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                maxValText.text = "Max " + maxValSeekbar.progress.toString()
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+            }
+
+        })
+
+        val dialogView = LinearLayout(context)
+        dialogView.orientation = LinearLayout.VERTICAL
+
+        dialogView.addView(minValText)
+        dialogView.addView(minValSeekbar)
+        dialogView.addView(maxValText)
+        dialogView.addView(maxValSeekbar)
+
+        filterDialogBuilder.setView(dialogView)
+        filterDialogBuilder.setPositiveButton("Filter", null)
+        filterDialogBuilder.setNegativeButton("Cancel", null)
+        filterDialogBuilder.setNeutralButton("Reset", null)
+
+        val filterDialog: AlertDialog = filterDialogBuilder.create()
+        filterDialog.show()
+
+        val positiveButton: Button = filterDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        positiveButton.setOnClickListener {
+            itemViewModel.filterPrice(minValSeekbar.progress, maxValSeekbar.progress)
+            filterDialog.dismiss()
+        }
+        val neutralButton: Button = filterDialog.getButton(AlertDialog.BUTTON_NEUTRAL)
+        neutralButton.setOnClickListener {
+            itemViewModel.reload()
+            filterDialog.dismiss()
+        }
+        val negativeButton: Button = filterDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+        negativeButton.setOnClickListener {
+            filterDialog.dismiss()
+        }
+
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            gridlayoutManager?.spanCount = 4
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            gridlayoutManager?.spanCount = 2
+        }
+        super.onConfigurationChanged(newConfig)
+    }
 }
+
