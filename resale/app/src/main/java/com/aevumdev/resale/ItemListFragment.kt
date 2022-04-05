@@ -174,10 +174,22 @@ class ItemListFragment : Fragment() {
         val filterDialogBuilder = AlertDialog.Builder(view?.context!!)
         filterDialogBuilder.setTitle("Filter Price")
         val maxVal = itemViewModel.getMaxPrice()
+
         val minValText = TextView(context)
+        val maxValText = TextView(context)
+
         minValText.text = "Min"
+        maxValText.text = "Max"
+
         val minValSeekbar = SeekBar(context)
+        val maxValSeekbar = SeekBar(context)
+
         minValSeekbar.max = maxVal
+        maxValSeekbar.max = maxVal
+
+        minValSeekbar.id = View.generateViewId()
+        maxValSeekbar.id = View.generateViewId()
+
         minValSeekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
@@ -190,11 +202,6 @@ class ItemListFragment : Fragment() {
             override fun onStopTrackingTouch(p0: SeekBar?) {
             }
         })
-
-        val maxValText = TextView(context)
-        maxValText.text = "Max"
-        val maxValSeekbar = SeekBar(context)
-        maxValSeekbar.max = maxVal
         maxValSeekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
@@ -218,6 +225,7 @@ class ItemListFragment : Fragment() {
         dialogView.addView(maxValSeekbar)
 
         filterDialogBuilder.setView(dialogView)
+
         filterDialogBuilder.setPositiveButton("Filter", null)
         filterDialogBuilder.setNegativeButton("Cancel", null)
         filterDialogBuilder.setNeutralButton("Reset", null)

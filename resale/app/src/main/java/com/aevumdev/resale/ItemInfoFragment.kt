@@ -1,9 +1,11 @@
 package com.aevumdev.resale
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -12,7 +14,10 @@ import com.aevumdev.resale.databinding.FragmentItemInfoBinding
 import com.aevumdev.resale.models.ItemViewModel
 import com.aevumdev.resale.models.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
+import java.sql.Date
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
 
 class ItemInfoFragment : Fragment() {
 
@@ -39,9 +44,9 @@ class ItemInfoFragment : Fragment() {
         binding.descriptionInfoText.text = item.description
         binding.priceInfoText.text = item.price.toString()
         binding.sellerInfoText.text = item.seller
-        val format = SimpleDateFormat.getDateTimeInstance()
-        val timeStr = format.format(item.date * 1000)
-        binding.dateInfoText.text = timeStr.toString()
+        val date = Date(item.date*1000L)
+        val timeStr = date.toString()
+        binding.dateInfoText.text = timeStr
 
         if (FirebaseAuth.getInstance().currentUser?.email.toString() == item.seller) {
             binding.itemInfoDeleteBtn.setOnClickListener {
