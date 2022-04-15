@@ -1,11 +1,10 @@
 package com.aevumdev.resale
 
+import android.app.Activity
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.InputType
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -44,6 +43,7 @@ class ItemListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         itemViewModel.itemsLiveData.observe(viewLifecycleOwner) { items ->
             if (items.count()>0) {
                 binding.itemListRv.visibility = View.VISIBLE
@@ -69,7 +69,6 @@ class ItemListFragment : Fragment() {
                 binding.itemListErrText.visibility = View.VISIBLE
             }
         }
-        itemViewModel.reload()
 
         userViewModel.currentUser.observe(viewLifecycleOwner) { user ->
 
@@ -81,6 +80,7 @@ class ItemListFragment : Fragment() {
                 }
             }
         }
+
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 itemViewModel.sort(binding.spinner.selectedItem.toString())
@@ -94,6 +94,7 @@ class ItemListFragment : Fragment() {
         binding.filterBtn.setOnClickListener {
             filterDialog()
         }
+
         binding.swiperefresh.setOnRefreshListener {
             itemViewModel.reload()
             binding.swiperefresh.isRefreshing = false
@@ -258,5 +259,6 @@ class ItemListFragment : Fragment() {
         }
         super.onConfigurationChanged(newConfig)
     }
+
 }
 

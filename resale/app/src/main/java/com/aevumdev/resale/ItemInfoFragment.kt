@@ -24,7 +24,6 @@ class ItemInfoFragment : Fragment() {
     private var _binding: FragmentItemInfoBinding? = null
     private val args: ItemInfoFragmentArgs by navArgs()
     private val itemViewModel: ItemViewModel by activityViewModels()
-    private val userViewModel: UserViewModel by activityViewModels()
     private val binding get() = _binding!!
 
     override fun onCreateView(
