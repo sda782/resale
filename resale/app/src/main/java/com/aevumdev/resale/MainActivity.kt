@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        title = ""
         setSupportActionBar(binding.toolbar)
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_logout -> {
                 if (Firebase.auth.currentUser != null) {
+                    Snackbar.make(binding.root, "Signed out user", Snackbar.LENGTH_LONG).show()
                     Firebase.auth.signOut()
                     val navController = findNavController(R.id.nav_host_fragment_content_main)
                     navController.popBackStack(R.id.itemListFragment, false)

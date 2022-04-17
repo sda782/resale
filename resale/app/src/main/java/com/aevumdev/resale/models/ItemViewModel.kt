@@ -42,7 +42,7 @@ class ItemViewModel : ViewModel() {
     fun sort(sortType: String) {
         when (sortType) {
             "id" -> {
-                pitemsLiveData.value = pitemsLiveData.value?.sortedBy { it.id }
+                pitemsLiveData.value = pitemsLiveData.value?.sortedByDescending { it.id }
             }
             "title" -> {
                 pitemsLiveData.value = pitemsLiveData.value?.sortedBy { it.title.lowercase() }
@@ -51,10 +51,10 @@ class ItemViewModel : ViewModel() {
                 pitemsLiveData.value = pitemsLiveData.value?.sortedBy { it.description.lowercase() }
             }
             "price" -> {
-                pitemsLiveData.value = pitemsLiveData.value?.sortedBy { it.price }
+                pitemsLiveData.value = pitemsLiveData.value?.sortedByDescending { it.price }
             }
             "date" -> {
-                pitemsLiveData.value = pitemsLiveData.value?.sortedBy { it.date }
+                pitemsLiveData.value = pitemsLiveData.value?.sortedByDescending { it.date }
             }
             else -> {
                 pitemsLiveData = repository.itemsLiveData

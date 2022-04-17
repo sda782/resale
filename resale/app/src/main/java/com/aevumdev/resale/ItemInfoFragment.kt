@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -30,11 +31,17 @@ class ItemInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Item Info"
         _binding = FragmentItemInfoBinding.inflate(inflater, container, false)
         return binding.root
 
     }
+/*
+
+    override fun onResume() {
+        super.onResume()
+    }
+*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -1,12 +1,15 @@
 package com.aevumdev.resale
 
-import android.app.Activity
+import android.R.attr.password
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.InputType
+import android.text.method.PasswordTransformationMethod
+import android.util.Patterns
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -32,12 +35,12 @@ class ItemListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentItemListBinding.inflate(inflater, container, false)
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "All items"
         return binding.root
     }
 
@@ -70,7 +73,7 @@ class ItemListFragment : Fragment() {
             }
         }
 
-        userViewModel.currentUser.observe(viewLifecycleOwner) { user ->
+        userViewModel.currentUser.observe(viewLifecycleOwner) { _ ->
 
             binding.fab.setOnClickListener {
                 if (auth.currentUser != null) {
@@ -121,6 +124,7 @@ class ItemListFragment : Fragment() {
         val inputPassword = EditText(context)
         inputPassword.hint = "password"
         inputPassword.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+        inputPassword.transformationMethod = PasswordTransformationMethod()
 
         val dialogView = LinearLayout(context)
         dialogView.orientation = LinearLayout.VERTICAL
@@ -139,8 +143,8 @@ class ItemListFragment : Fragment() {
         positiveButton.setOnClickListener {
             val email = inputEmail.editableText.toString()
             val password = inputPassword.editableText.toString()
-            if (email.isEmpty()) {
-                inputEmail.error = "Enter an email"
+            if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                inputEmail.error = "Enter a valid email"
                 return@setOnClickListener
             }
             if (password.isEmpty()) {
