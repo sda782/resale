@@ -32,7 +32,7 @@ class ExampleInstrumentedTest {
     @Test
     fun useAppContext() {
         // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val appContext = getInstrumentation().targetContext
         assertEquals("com.aevumdev.resale", appContext.packageName)
     }
 
@@ -47,9 +47,9 @@ class ExampleInstrumentedTest {
     }
     @Test
     fun signoutTest(){
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val appContext = getInstrumentation().targetContext
         openActionBarOverflowOrOptionsMenu(appContext)
         onView(withText(R.string.logout)).perform(click())
-        //onView(withId(R.id.auth_status)).check(matches(withText(R.string.auth_status_logged_in)))
+        //onView(withId(R.id.auth_status)).check(matches(withText(R.string.auth_status_logged_out)))
     }
 }
