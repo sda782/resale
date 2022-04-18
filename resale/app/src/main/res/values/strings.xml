@@ -14,6 +14,8 @@
     <string name="price">price</string>
     <string name="image">Image</string>
     <string name="filter">Filter</string>
+    <string name="auth_status_logged_out">not logged in</string>
+    <string name="auth_status_logged_in">"Logged in as %1$s</string>
     <string-array name="sortby_types">
         <item>-- none --</item>
         <item>id</item>

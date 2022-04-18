@@ -1,6 +1,7 @@
 package com.aevumdev.resale.models
 
 import android.content.Context
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.lifecycle.LiveData
@@ -17,8 +18,10 @@ class UserViewModel : ViewModel() {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(context, "Login success", Toast.LENGTH_LONG).show()
+                Log.d("REX", "Login success")
             } else {
                 Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show()
+                Log.d("REX", "Login failed")
             }
         }
     }
@@ -27,9 +30,11 @@ class UserViewModel : ViewModel() {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(context, "User created", Toast.LENGTH_LONG).show()
+                Log.d("REX", "User created")
             }
             if (!task.isSuccessful) {
                 Toast.makeText(context, "Couldn't create user", Toast.LENGTH_LONG).show()
+                Log.d("REX", "Couldn't create user " + task.exception.toString())
             }
         }
     }

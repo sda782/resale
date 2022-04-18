@@ -11,6 +11,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import org.hamcrest.CoreMatchers.startsWith
 import org.hamcrest.Matchers
 
 import org.junit.Test
@@ -42,11 +43,13 @@ class ExampleInstrumentedTest {
         onView(withHint("email")).perform(typeText("a@a.com"))
         onView(withHint("password")).perform(typeText("123456"))
         onView(withText("Login")).perform(click())
+        //onView(withId(R.id.auth_status)).check(matches(withText(R.string.auth_status_logged_in)))
     }
     @Test
     fun signoutTest(){
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         openActionBarOverflowOrOptionsMenu(appContext)
         onView(withText(R.string.logout)).perform(click())
+        //onView(withId(R.id.auth_status)).check(matches(withText(R.string.auth_status_logged_in)))
     }
 }

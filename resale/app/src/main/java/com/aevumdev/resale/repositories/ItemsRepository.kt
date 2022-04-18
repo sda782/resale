@@ -1,5 +1,6 @@
 package com.aevumdev.resale.repositories
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.aevumdev.resale.models.Item
 import retrofit2.Call
@@ -27,9 +28,11 @@ class ItemsRepository {
             override fun onResponse(call: Call<List<Item>>, response: Response<List<Item>>) {
                 if (response.isSuccessful){
                     itemsLiveData.postValue(response.body())
+                    Log.d("REX", "Got items")
                     errorMessageLiveData.postValue("")
                 }else{
                     val msg = response.code().toString() + " " + response.message()
+                    Log.e("REX", msg)
                     errorMessageLiveData.postValue(msg)
                 }
             }
@@ -45,10 +48,12 @@ class ItemsRepository {
         itemStoreService.addItem(item).enqueue(object : Callback<Item>{
             override fun onResponse(call: Call<Item>, response: Response<Item>) {
                 if (response.isSuccessful){
+                    Log.d("REX", "Successfully added item " + response.body())
                     updateMessageLiveData.postValue("added " + response.body())
                     errorMessageLiveData.postValue("")
                 }else{
                     val msg = response.code().toString() + " " + response.message()
+                    Log.e("REX", msg)
                     errorMessageLiveData.postValue(msg)
                 }
             }
@@ -65,9 +70,11 @@ class ItemsRepository {
             override fun onResponse(call: Call<Item>, response: Response<Item>) {
                 if (response.isSuccessful){
                     updateMessageLiveData.postValue("deleted " + response.body())
+                    Log.d("REX", "Succesfully deleted item " + response.body())
                     errorMessageLiveData.postValue("")
                 }else{
                     val msg = response.code().toString() + " " + response.message()
+                    Log.d("REX", msg)
                     errorMessageLiveData.postValue(msg)
                 }
             }

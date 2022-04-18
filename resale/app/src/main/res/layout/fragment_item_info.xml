@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="353dp"
         android:contentDescription="@string/item_image_description"
-        app:srcCompat="@android:drawable/ic_menu_gallery"
-        tools:src="@tools:sample/avatars" />
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        tools:src="@android:drawable/ic_menu_camera" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text=""
-            android:textAlignment="textStart"
+            android:textAlignment="textEnd"
             android:textSize="20sp" />
     </LinearLayout>
 

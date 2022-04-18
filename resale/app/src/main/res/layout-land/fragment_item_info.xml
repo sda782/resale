@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="50sp"
-    android:layout_marginEnd="50sp"
+    android:layout_marginStart="20sp"
+    android:layout_marginEnd="20sp"
     tools:context=".ItemInfoFragment">
 
     <ImageView
@@ -13,8 +13,8 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:contentDescription="@string/item_image_description"
-        app:srcCompat="@android:drawable/ic_menu_gallery"
-        tools:src="@tools:sample/avatars" />
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        tools:src="@android:drawable/ic_menu_camera" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,6 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
             android:orientation="horizontal">
 
             <TextView

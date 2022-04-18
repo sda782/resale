@@ -2,12 +2,14 @@ package com.aevumdev.resale
 
 import android.R.attr.password
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import android.view.*
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -73,7 +75,12 @@ class ItemListFragment : Fragment() {
             }
         }
 
-        userViewModel.currentUser.observe(viewLifecycleOwner) { _ ->
+        userViewModel.currentUser.observe(viewLifecycleOwner) { user ->
+            if(auth.currentUser != null) {
+                binding.authStatus.text = getString(R.string.auth_status_logged_in, auth.currentUser?.email.toString())
+            }else{
+                binding.authStatus.text = getString(R.string.auth_status_logged_out)
+            }
 
             binding.fab.setOnClickListener {
                 if (auth.currentUser != null) {
@@ -192,13 +199,13 @@ class ItemListFragment : Fragment() {
         minValSeekbar.max = maxVal
         maxValSeekbar.max = maxVal
 
-        minValSeekbar.id = View.generateViewId()
-        maxValSeekbar.id = View.generateViewId()
 
         minValSeekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 minValText.text = "Min " + minValSeekbar.progress.toString()
+                maxValSeekbar.min = minValSeekbar.progress
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {

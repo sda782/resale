@@ -36,19 +36,13 @@ class ItemInfoFragment : Fragment() {
         return binding.root
 
     }
-/*
-
-    override fun onResume() {
-        super.onResume()
-    }
-*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val item = itemViewModel.itemsLiveData.value?.get(args.itemInfo)!!
         binding.nameInfoText.text = item.title
         binding.descriptionInfoText.text = item.description
-        binding.priceInfoText.text = item.price.toString()
+        binding.priceInfoText.text = item.price.toString() + " kr"
         binding.sellerInfoText.text = item.seller
         val date = Date(item.date*1000L)
         val timeStr = date.toString()
